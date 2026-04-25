@@ -2,17 +2,19 @@
 
 A complete Android inventory & sales management app built with Kotlin, Room, and Material Design.
 
-**Version: 1.30.0**  
+**Version: 1.30.1**  
 *Made by [xeoniii.dev](https://github.com/xeoniii)*
 
 ---
 
-## 🌟 New in v1.30.0
-- **PDF Receipt Generation**: Generate 80mm thermal-style PDF receipts for any sale group.
-- **Dual Modes (Personal vs. Sales)**: Switch between a full-access "Personal Mode" and a restricted "Sales Mode" for shop floor use.
-- **Password Protection**: Protect sensitive actions and mode switching with a customizable password.
-- **Shop Customization**: Set your shop name to appear in the app drawer and on all generated receipts.
-- **Improved Navigation**: Dynamic bottom navigation and drawer that adapts to the active mode.
+## 🌟 New in v1.30.1
+- **Dark Mode Support**: Seamlessly switch between Light and Dark themes from the side menu.
+- **Shop Logo Customization**: Personalize your workspace by uploading a custom logo to the navigation drawer.
+- **PDF Receipt Generation**: Generate professional 80mm thermal-style PDF receipts for any sale.
+- **Dual Modes (Personal vs. Sales)**: Secure your data with a restricted "Sales Mode" for staff use.
+- **Rich "About" Dialog**: Integrated Markdown rendering for a clean and detailed app information screen.
+- **Password Protection**: Customizable security for mode switching and sensitive deletions.
+- **Shop Branding**: Your shop name now appears on all generated bills and app headers.
 
 ---
 
@@ -20,29 +22,28 @@ A complete Android inventory & sales management app built with Kotlin, Room, and
 
 ### 📦 Products (Personal Mode Only)
 - Add, edit, and delete products from the master catalogue.
-- Scan barcodes using the device camera (ZXing).
-- Store wholesale price, retail price, unit (e.g., pcs, kg), and description.
-- Search products by name or barcode.
-- Per-product profit margin shown on cards.
+- Scan barcodes using the device camera (ZXing integration).
+- Store wholesale/retail prices, units (pcs, kg, etc.), and descriptions.
+- Search products instantly by name or barcode.
+- Real-time profit margin visualization on product cards.
 
 ### 🏪 Inventory
-- Add any product to inventory with a stock quantity.
-- Edit existing stock levels.
-- **Auto-sync**: Verified sales automatically decrease stock levels.
-- **Auto-clean**: Items with zero stock can be automatically managed.
-- Search inventory by product name.
+- Manage stock levels for all catalogued products.
+- **Smart Sync**: Stock is automatically deducted when sales are verified.
+- **Stock Tracking**: Easily identify low-stock items.
+- Unified search for quick inventory lookups.
 
 ### 🧾 Sales & Billing
-- Create named sale groups (e.g., "Sale for ABC Supermarket").
-- Add multiple products with quantities to a group.
-- Prices auto-filled from product catalogue (editable per sale).
-- **Override Totals**: Manually adjust the final retail price for discounts or fees.
-- **Bill Generation**: One-tap PDF generation for receipts.
-- **Verification**: Formally "verify" a sale to deduct items from inventory permanently.
-- **Dashboard banner**: Shows all-time totals across all sales (Personal Mode).
+- Create organized sale groups for different customers or sessions.
+- Adjustable pricing per sale item (defaults from catalogue).
+- **Price Overrides**: Add custom discounts or service fees to the final total.
+- **One-Tap Billing**: Generate PDF receipts saved directly to your device.
+- **Verification System**: Formally close sales to update inventory and financial records.
+- **Financial Dashboard**: View total revenue, wholesale costs, and net profit at a glance.
 
 ### 📱 Navigation & UI
-- **Swipeable Tabs**: Smoothly transition between Products, Inventory, and Sales.
-- **Dynamic Drawer**: Access mode switching, generated bills, and shop settings.
-- **Modern Search**: Unified search bar that adapts to each section.
-- **Material Design 3**: Modern, clean, and responsive interface.
+- **Dynamic Drawer**: Access settings, bills, theme toggles, and mode switching.
+- **Adaptive UI**: The interface (tabs and menus) morphs based on whether you are in Personal or Sales mode.
+- **Dark Theme**: Eye-friendly interface designed for low-light environments.
+- **Modern Search**: Persistent, context-aware search bar across all main tabs.
+- **Material 3 Design**: Clean, modern, and highly responsive user experience.

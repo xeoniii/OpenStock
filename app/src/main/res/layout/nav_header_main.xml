@@ -1,36 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/nav_header_container"
     android:layout_width="match_parent"
     android:layout_height="176dp"
-    android:background="#17202A"
-    android:gravity="bottom"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+    android:background="#17202A">
 
-    <TextView
+    <ImageView
+        android:id="@+id/iv_nav_shop_logo"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="8dp"
-        android:text="OpenStock"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/default_shop_logo" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="v1.30.0"
-        android:textSize="14sp"
-        android:alpha="0.8" />
-
-    <TextView
-        android:id="@+id/tv_nav_shop_name"
+    <!-- Gradient overlay to ensure text readability -->
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="Shop Name"
-        android:textSize="14sp"
-        android:alpha="0.6" />
+        android:layout_height="match_parent"
+        android:background="@drawable/nav_header_gradient" />
 
-</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:text="OpenStock"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="v1.30.1"
+            android:textSize="14sp"
+            android:alpha="0.8" />
+
+        <TextView
+            android:id="@+id/tv_nav_shop_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Shop Name"
+            android:textSize="14sp"
+            android:alpha="0.6" />
+
+    </LinearLayout>
+</FrameLayout>

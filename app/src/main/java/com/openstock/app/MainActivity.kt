@@ -12,14 +12,21 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.ScrollView
 import android.widget.TextView
 import android.widget.Toast
 import io.noties.markwon.Markwon
+import java.io.File
+import java.io.FileOutputStream
+import java.io.InputStream
+import java.io.OutputStream
+import android.graphics.BitmapFactory
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
@@ -65,7 +72,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
+    private val pickImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+        uri?.let { saveShopLogo(it) }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        val prefs = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        val isDarkMode = prefs.getBoolean("dark_mode", false)
+        if (isDarkMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
+
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -181,6 +200,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             val drawerMenu = binding.navDrawer.menu
             drawerMenu.findItem(R.id.action_sales_mode).title = if (isSalesMode) "Switch to Personal mode" else "Switch to Sales mode"
             drawerMenu.findItem(R.id.action_shop_name).isVisible = !isSalesMode
+            drawerMenu.findItem(R.id.action_shop_logo).isVisible = !isSalesMode
+            
+            val isDark = getSharedPreferences("app_prefs", Context.MODE_PRIVATE).getBoolean("dark_mode", false)
+            drawerMenu.findItem(R.id.action_theme_mode).title = if (isDark) "Switch to Light mode" else "Switch to Dark mode"
 
             invalidateOptionsMenu()
         }
@@ -189,8 +212,38 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private fun updateDrawerHeader() {
         val headerView = binding.navDrawer.getHeaderView(0)
         val tvShopName = headerView.findViewById<TextView>(R.id.tv_nav_shop_name)
+        val ivLogo = headerView.findViewById<ImageView>(R.id.iv_nav_shop_logo)
+        
         val prefs = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        tvShopName.text = prefs.getString("shop_name", "OpenStock")
+        tvShopName?.text = prefs.getString("shop_name", "OpenStock")
+        
+        val logoPath = prefs.getString("shop_logo_path", null)
+        if (logoPath != null && ivLogo != null) {
+            val file = File(logoPath)
+            if (file.exists()) {
+                val bitmap = BitmapFactory.decodeFile(file.absolutePath)
+                ivLogo.setImageBitmap(bitmap)
+            }
+        }
+    }
+
+    private fun saveShopLogo(uri: android.net.Uri) {
+        try {
+            contentResolver.openInputStream(uri)?.use { input ->
+                val file = File(filesDir, "shop_logo.png")
+                FileOutputStream(file).use { output ->
+                    input.copyTo(output)
+                }
+                getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+                    .edit()
+                    .putString("shop_logo_path", file.absolutePath)
+                    .apply()
+                updateDrawerHeader()
+                Toast.makeText(this, "Logo updated successfully", Toast.LENGTH_SHORT).show()
+            }
+        } catch (e: Exception) {
+            Toast.makeText(this, "Failed to save logo", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun checkAndRequestPermissions() {
@@ -251,11 +304,38 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         when (item.itemId) {
             R.id.action_sales_mode -> handleModeSwitch()
             R.id.action_shop_name -> showShopNameDialog()
+            R.id.action_shop_logo -> showShopLogoDialog()
             R.id.action_bills -> navController.navigate(R.id.navigation_bills)
+            R.id.action_theme_mode -> toggleTheme()
             R.id.action_about -> showAboutDialog()
         }
         binding.drawerLayout.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    private fun toggleTheme() {
+        val prefs = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        val isDarkMode = prefs.getBoolean("dark_mode", false)
+        val newMode = !isDarkMode
+        prefs.edit().putBoolean("dark_mode", newMode).apply()
+        
+        if (newMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
+        recreate()
+    }
+
+    private fun showShopLogoDialog() {
+        AlertDialog.Builder(this)
+            .setTitle("Set Shop Logo")
+            .setMessage("Recommended resolution: 1000x500 pixels (aspect ratio 2:1 for best results).")
+            .setPositiveButton("Select Photo") { _, _ ->
+                pickImageLauncher.launch("image/*")
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
     }
 
     private fun showShopNameDialog() {
@@ -339,7 +419,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val aboutText = try {
             assets.open("about.md").bufferedReader().use { it.readText() }
         } catch (e: Exception) {
-            "Version 1.30.0\n\nMade by xeoniii.dev"
+            "Version 1.30.1\n\nMade by xeoniii.dev"
         }
 
         val textView = TextView(this).apply {

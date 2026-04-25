@@ -2,12 +2,12 @@
 
 A complete Android inventory & sales management app built with Kotlin, Room, and Material Design.
 
-**Version: 1.30.0**  
+**Version: 1.30.1**  
 *Made by [xeoniii.dev](https://github.com/xeoniii)*
 
 ---
 
-## 🌟 New in v1.30.0
+## 🌟 New in v1.30.1
 - **PDF Receipt Generation**: Generate 80mm thermal-style PDF receipts for any sale group.
 - **Dual Modes (Personal vs. Sales)**: Switch between a full-access "Personal Mode" and a restricted "Sales Mode" for shop floor use.
 - **Password Protection**: Protect sensitive actions and mode switching with a customizable password.

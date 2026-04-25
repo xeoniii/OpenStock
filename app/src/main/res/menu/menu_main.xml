@@ -10,8 +10,16 @@
         android:title="Shop Name"
         app:showAsAction="never" />
     <item
+        android:id="@+id/action_shop_logo"
+        android:title="Shop Logo"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/action_bills"
         android:title="Bills"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_theme_mode"
+        android:title="Dark Mode"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_about"
