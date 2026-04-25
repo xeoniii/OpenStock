@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/navigation_products">
+
+    <fragment
+        android:id="@+id/navigation_products"
+        android:name="com.openstock.app.ui.products.ProductsFragment"
+        android:label="Products"
+        tools:layout="@layout/fragment_products" />
+
+    <fragment
+        android:id="@+id/navigation_inventory"
+        android:name="com.openstock.app.ui.inventory.InventoryFragment"
+        android:label="Inventory"
+        tools:layout="@layout/fragment_inventory" />
+
+    <fragment
+        android:id="@+id/navigation_sales"
+        android:name="com.openstock.app.ui.sales.SalesFragment"
+        android:label="Sales"
+        tools:layout="@layout/fragment_sales" />
+
+    <fragment
+        android:id="@+id/navigation_sale_group_detail"
+        android:name="com.openstock.app.ui.sales.SaleGroupDetailFragment"
+        android:label="{groupName}"
+        tools:layout="@layout/fragment_sale_group_detail">
+        <argument
+            android:name="groupId"
+            app:argType="long" />
+        <argument
+            android:name="groupName"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_add_sale_item"
+        android:name="com.openstock.app.ui.sales.AddSaleItemFragment"
+        android:label="Add to Sale"
+        tools:layout="@layout/fragment_add_sale_item">
+        <argument
+            android:name="groupId"
+            app:argType="long" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_bills"
+        android:name="com.openstock.app.ui.sales.BillsFragment"
+        android:label="Generated Bills"
+        tools:layout="@layout/fragment_bills" />
+
+    <action
+        android:id="@+id/action_global_saleGroupDetailFragment"
+        app:destination="@id/navigation_sale_group_detail"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim" />
+
+    <action
+        android:id="@+id/action_global_navigation_bills"
+        app:destination="@id/navigation_bills" />
+
+</navigation>
