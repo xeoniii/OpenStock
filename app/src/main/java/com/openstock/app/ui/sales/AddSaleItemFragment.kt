@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.viewpager2.widget.ViewPager2
 import com.openstock.app.OpenStockApp
 import com.openstock.app.data.dao.InventoryRaw
 import com.openstock.app.data.model.SaleItem
@@ -26,6 +27,7 @@ class AddSaleItemFragment : Fragment() {
     private lateinit var viewModel: SalesViewModel
     private lateinit var mainViewModel: MainViewModel
     private lateinit var adapter: InventoryAdapter
+    private lateinit var galleryAdapter: GalleryAdapter
     private var groupId: Long = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -50,9 +52,35 @@ class AddSaleItemFragment : Fragment() {
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = adapter
 
+        galleryAdapter = GalleryAdapter()
+        binding.viewPagerGallery.adapter = galleryAdapter
+
         viewModel.filteredInventory.observe(viewLifecycleOwner) { items ->
             adapter.submitList(items)
+            galleryAdapter.submitList(items)
             binding.tvEmpty.visibility = if (items.isEmpty()) View.VISIBLE else View.GONE
+        }
+
+        binding.toggleGroup.addOnButtonCheckedListener { _, checkedId, isChecked ->
+            if (isChecked) {
+                if (checkedId == binding.btnList.id) {
+                    binding.recyclerView.visibility = View.VISIBLE
+                    binding.viewPagerGallery.visibility = View.GONE
+                    binding.btnGalleryAdd.visibility = View.GONE
+                } else {
+                    binding.recyclerView.visibility = View.GONE
+                    binding.viewPagerGallery.visibility = View.VISIBLE
+                    binding.btnGalleryAdd.visibility = View.VISIBLE
+                }
+            }
+        }
+
+        binding.btnGalleryAdd.setOnClickListener {
+            val currentPos = binding.viewPagerGallery.currentItem
+            val items = viewModel.filteredInventory.value
+            if (items != null && currentPos < items.size) {
+                showAddToSaleDialog(items[currentPos])
+            }
         }
 
         binding.searchView.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener {

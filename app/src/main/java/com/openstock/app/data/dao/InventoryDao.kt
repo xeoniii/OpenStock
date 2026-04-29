@@ -7,7 +7,7 @@ import com.openstock.app.data.model.InventoryItem
 @Dao
 interface InventoryDao {
     @Query("""
-        SELECT inventory.*, products.name as productName, products.retailPrice as retailPrice FROM inventory 
+        SELECT inventory.*, products.name as productName, products.retailPrice as retailPrice, products.imagePath as imagePath FROM inventory 
         INNER JOIN products ON inventory.productId = products.id
         ORDER BY products.name ASC
     """)
@@ -35,5 +35,6 @@ data class InventoryRaw(
     val quantityInStock: Double,
     val lastUpdated: Long,
     val productName: String,
-    val retailPrice: Double
+    val retailPrice: Double,
+    val imagePath: String? = null
 )

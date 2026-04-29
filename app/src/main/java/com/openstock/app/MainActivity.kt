@@ -419,7 +419,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val aboutText = try {
             assets.open("about.md").bufferedReader().use { it.readText() }
         } catch (e: Exception) {
-            "Version 1.30.1\n\nMade by xeoniii.dev"
+            "Version 1.31.2\n\nMade by xeoniii.dev"
         }
 
         val textView = TextView(this).apply {

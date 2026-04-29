@@ -5,9 +5,11 @@ import android.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.openstock.app.R
 import com.openstock.app.data.dao.InventoryRaw
 import com.openstock.app.databinding.ItemInventoryBinding
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -35,6 +37,20 @@ class InventoryAdapter(
                 binding.tvLastUpdated.visibility = View.VISIBLE
                 val sdf = SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.getDefault())
                 binding.tvLastUpdated.text = "Updated: ${sdf.format(Date(item.lastUpdated))}"
+            }
+
+            if (item.imagePath != null) {
+                val file = File(item.imagePath)
+                if (file.exists()) {
+                    Glide.with(binding.root.context)
+                        .load(file)
+                        .centerCrop()
+                        .into(binding.ivProduct)
+                } else {
+                    binding.ivProduct.setImageResource(R.drawable.ic_products)
+                }
+            } else {
+                binding.ivProduct.setImageResource(R.drawable.ic_products)
             }
             
             // Remove three dots in sales mode

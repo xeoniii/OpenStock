@@ -13,5 +13,6 @@ data class Product(
     val retailPrice: Double,
     val description: String = "",
     val unit: String = "pcs",
+    val imagePath: String? = null,
     val createdAt: Long = System.currentTimeMillis()
 )

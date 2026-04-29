@@ -5,9 +5,11 @@ import android.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.openstock.app.R
 import com.openstock.app.data.model.Product
 import com.openstock.app.databinding.ItemProductBinding
+import java.io.File
 
 class ProductsAdapter(
     private val onEdit: (Product) -> Unit,
@@ -23,6 +25,21 @@ class ProductsAdapter(
             binding.tvUnit.text = product.unit
             val profit = product.retailPrice - product.wholesalePrice
             binding.tvProfit.text = "Profit: AED %.2f".format(profit)
+            
+            if (product.imagePath != null) {
+                val file = File(product.imagePath)
+                if (file.exists()) {
+                    Glide.with(binding.root.context)
+                        .load(file)
+                        .centerCrop()
+                        .into(binding.ivProduct)
+                } else {
+                    binding.ivProduct.setImageResource(R.drawable.ic_products)
+                }
+            } else {
+                binding.ivProduct.setImageResource(R.drawable.ic_products)
+            }
+
             binding.btnMore.setOnClickListener { showMenu(it, product) }
         }
     }

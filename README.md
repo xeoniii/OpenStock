@@ -2,12 +2,16 @@
 
 A complete Android inventory & sales management app built with Kotlin, Room, and Material Design.
 
-**Version: 1.30.1**  
+**Version: 1.31.2**  
 *Made by [xeoniii.dev](https://xeoniii.github.io)*
 
 ---
 
-## 🌟 New in v1.30.1
+## 🌟 New in v1.31.2
+- **New Branding**: Modern 📦 box icon applied as the new app icon and across the interface.
+- **Enhanced Product Photos**: Three ways to add photos—Select from gallery, take with camera, or download from a web URL.
+- **Product Photos**: Add/edit photos for each product from the catalogue.
+- **Sales Gallery**: A new "Gallery Mode" for adding items to sales with high-quality swipeable images.
 - **Dark Mode Support**: Seamlessly switch between Light and Dark themes from the side menu.
 - **Shop Logo Customization**: Personalize your workspace by uploading a custom logo to the navigation drawer.
 - **PDF Receipt Generation**: Generate professional 80mm thermal-style PDF receipts for any sale.

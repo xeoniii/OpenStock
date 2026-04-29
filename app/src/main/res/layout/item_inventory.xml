@@ -13,6 +13,17 @@
         android:layout_height="wrap_content"
         android:padding="14dp">
 
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivProduct"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_products"
+            android:background="#F2F3F4"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.MaterialComponents.SmallComponent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/tvProductName"
             android:layout_width="0dp"
@@ -20,7 +31,8 @@
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="?android:attr/textColorPrimary"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="12dp"
+            app:layout_constraintStart_toEndOf="@id/ivProduct"
             app:layout_constraintEnd_toStartOf="@id/btnMore"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -42,7 +54,8 @@
             android:textColor="#27AE60"
             android:textStyle="bold"
             android:layout_marginTop="2dp"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="12dp"
+            app:layout_constraintStart_toEndOf="@id/ivProduct"
             app:layout_constraintTop_toBottomOf="@id/tvProductName" />
 
         <TextView
@@ -54,7 +67,7 @@
             android:textColor="#2980B9"
             android:layout_marginTop="6dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvPrice" />
+            app:layout_constraintTop_toBottomOf="@id/ivProduct" />
 
         <TextView
             android:id="@+id/tvLastUpdated"
