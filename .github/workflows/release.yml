@@ -23,6 +23,9 @@ jobs:
           distribution: 'temurin'
           cache: gradle
 
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+
       - name: Extract Version Name
         id: get_version
         run: |
@@ -37,7 +40,7 @@ jobs:
           chmod +x gradlew
           ./gradlew :app:assembleRelease
 
-      - name: Create Draft Release
+      - name: Create or Update Draft Release
         uses: softprops/action-gh-release@v1
         with:
           tag_name: v${{ steps.get_version.outputs.VERSION_NAME }}
