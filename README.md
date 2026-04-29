@@ -3,7 +3,7 @@
 A complete Android inventory & sales management app built with Kotlin, Room, and Material Design.
 
 **Version: 1.30.1**  
-*Made by [xeoniii.dev](https://github.com/xeoniii)*
+*Made by [xeoniii.dev](https://xeoniii.github.io)*
 
 ---
 
