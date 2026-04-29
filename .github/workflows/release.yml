@@ -34,9 +34,6 @@ jobs:
 
       - name: Build Release APK
         run: |
-          if [ ! -f gradlew ]; then
-            gradle wrapper
-          fi
           chmod +x gradlew
           ./gradlew :app:assembleRelease
 
