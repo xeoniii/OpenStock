@@ -11,12 +11,12 @@ android {
 
     signingConfigs {
         release {
-            def propFile = rootProject.file('signing.properties')
+            def propFile = file('../signing.properties')
             if (propFile.exists()) {
                 def props = new Properties()
                 propFile.withInputStream { props.load(it) }
 
-                storeFile = rootProject.file(props['STORE_FILE'])
+                storeFile = file("../${props['STORE_FILE']}")
                 storePassword = props['STORE_PASSWORD']
                 keyAlias = props['KEY_ALIAS']
                 keyPassword = props['KEY_PASSWORD']

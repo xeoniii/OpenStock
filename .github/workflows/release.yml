@@ -32,6 +32,18 @@ jobs:
           VERSION_NAME=$(grep "versionName" app/build.gradle | head -n 1 | awk -F'"' '{print $2}')
           echo "VERSION_NAME=$VERSION_NAME" >> $GITHUB_OUTPUT
 
+      - name: Decode Keystore
+        run: |
+          mkdir -p SigningKey
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > SigningKey/OpenStock-main.jks
+
+      - name: Create signing.properties
+        run: |
+          echo "STORE_FILE=SigningKey/OpenStock-main.jks" > signing.properties
+          echo "STORE_PASSWORD=${{ secrets.KEYSTORE_PASSWORD }}" >> signing.properties
+          echo "KEY_ALIAS=${{ secrets.KEY_ALIAS }}" >> signing.properties
+          echo "KEY_PASSWORD=${{ secrets.KEY_PASSWORD }}" >> signing.properties
+
       - name: Build Release APK
         run: |
           chmod +x gradlew
@@ -43,7 +55,7 @@ jobs:
           tag_name: v${{ steps.get_version.outputs.VERSION_NAME }}
           name: Release v${{ steps.get_version.outputs.VERSION_NAME }}
           draft: true
-          files: app/build/outputs/apk/release/OpenStock.apk
+          files: app/build/outputs/apk/release/*.apk
           generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
