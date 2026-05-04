@@ -9,21 +9,6 @@ android {
     namespace 'com.openstock.app'
     compileSdk 34
 
-    signingConfigs {
-        release {
-            def propFile = file('../signing.properties')
-            if (propFile.exists()) {
-                def props = new Properties()
-                propFile.withInputStream { props.load(it) }
-
-                storeFile = file("../${props['STORE_FILE']}")
-                storePassword = props['STORE_PASSWORD']
-                keyAlias = props['KEY_ALIAS']
-                keyPassword = props['KEY_PASSWORD']
-            }
-        }
-    }
-
     defaultConfig {
         applicationId "com.openstock.app"
         minSdk 21
@@ -42,8 +27,6 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            // Use the release signing configuration
-            signingConfig signingConfigs.release
         }
     }
     compileOptions {
