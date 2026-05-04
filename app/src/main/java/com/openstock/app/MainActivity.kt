@@ -424,7 +424,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val aboutText = try {
             assets.open("about.md").bufferedReader().use { it.readText() }
         } catch (e: Exception) {
-            "Version 1.31.2\n\nMade by xeoniii.dev"
+            "Version 1.32.0\n\nMade by xeoniii.dev"
         }
 
         val textView = TextView(this).apply {
@@ -445,7 +445,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             .setView(scrollView)
             .setPositiveButton("OK", null)
             .setNeutralButton("Visit Website") { _, _ ->
-                val intent = Intent(Intent.ACTION_VIEW, "https://github.com/xeoniii".toUri())
+                val intent = Intent(Intent.ACTION_VIEW, "https://xeoniii.github.io/openstocks".toUri())
                 startActivity(intent)
             }
             .show()

@@ -11,18 +11,15 @@ android {
 
     signingConfigs {
         release {
-            def propFile = file('../signing.properties')
-            if (propFile.canRead()) {
+            def propFile = rootProject.file('signing.properties')
+            if (propFile.exists()) {
                 def props = new Properties()
-                props.load(new FileInputStream(propFile))
+                propFile.withInputStream { props.load(it) }
 
-                if (props.containsKey('STORE_FILE') && props.containsKey('STORE_PASSWORD') &&
-                        props.containsKey('KEY_ALIAS') && props.containsKey('KEY_PASSWORD')) {
-                    storeFile = file(props['STORE_FILE'])
-                    storePassword = props['STORE_PASSWORD']
-                    keyAlias = props['KEY_ALIAS']
-                    keyPassword = props['KEY_PASSWORD']
-                }
+                storeFile = rootProject.file(props['STORE_FILE'])
+                storePassword = props['STORE_PASSWORD']
+                keyAlias = props['KEY_ALIAS']
+                keyPassword = props['KEY_PASSWORD']
             }
         }
     }
@@ -31,8 +28,8 @@ android {
         applicationId "com.openstock.app"
         minSdk 21
         targetSdk 34
-        versionCode 1312
-        versionName "1.31.2"
+        versionCode 1320
+        versionName "1.32.0"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

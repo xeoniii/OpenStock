@@ -2,23 +2,16 @@
 
 A complete Android inventory & sales management app built with Kotlin, Room, and Material Design.
 
-**Version: 1.31.2**  
-*Made by [xeoniii.dev](https://xeoniii.github.io)*
+**Version: 1.32.0**  
+*Made by [xeoniii.dev](https://xeoniii.github.io/openstocks)*
 
 ---
 
-## 🌟 New in v1.31.2
-- **New Branding**: Modern 📦 box icon applied as the new app icon and across the interface.
-- **Enhanced Product Photos**: Three ways to add photos—Select from gallery, take with camera, or download from a web URL.
-- **Product Photos**: Add/edit photos for each product from the catalogue.
-- **Sales Gallery**: A new "Gallery Mode" for adding items to sales with high-quality swipeable images.
-- **Dark Mode Support**: Seamlessly switch between Light and Dark themes from the side menu.
-- **Shop Logo Customization**: Personalize your workspace by uploading a custom logo to the navigation drawer.
-- **PDF Receipt Generation**: Generate professional 80mm thermal-style PDF receipts for any sale.
-- **Dual Modes (Personal vs. Sales)**: Secure your data with a restricted "Sales Mode" for staff use.
-- **Rich "About" Dialog**: Integrated Markdown rendering for a clean and detailed app information screen.
-- **Password Protection**: Customizable security for mode switching and sensitive deletions.
-- **Shop Branding**: Your shop name now appears on all generated bills and app headers.
+## 🌟 New in v1.32.0
+- **Overhauled UI**: Asynchronous image loading in the navigation drawer and improved list rendering in the Sales Gallery.
+- **Performance Boost**: Moved search filtering to the database for faster results and reduced memory usage.
+- **Enhanced Database**: Added indexing to sales history for near-instant reporting as your data grows.
+- **Release Stability**: Improved build pipeline for more reliable APK installations and secure release signing.
 
 ---
 
