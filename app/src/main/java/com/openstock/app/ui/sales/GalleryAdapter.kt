@@ -11,16 +11,30 @@ import com.openstock.app.data.dao.InventoryRaw
 import com.openstock.app.databinding.ItemGalleryProductBinding
 import java.io.File
 
-class GalleryAdapter : ListAdapter<InventoryRaw, GalleryAdapter.ViewHolder>(DIFF) {
+data class GalleryItem(
+    val inventory: InventoryRaw,
+    val selectedQuantity: Double
+)
+
+class GalleryAdapter(
+    private val onPlusClick: (InventoryRaw) -> Unit,
+    private val onMinusClick: (InventoryRaw) -> Unit
+) : ListAdapter<GalleryItem, GalleryAdapter.ViewHolder>(DIFF) {
 
     inner class ViewHolder(private val binding: ItemGalleryProductBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: InventoryRaw) {
-            binding.tvProductName.text = item.productName
-            binding.tvPrice.text = "AED %.2f".format(item.retailPrice)
-            binding.tvStock.text = "In Stock: ${formatQty(item.quantityInStock)}"
+        fun bind(item: GalleryItem) {
+            val raw = item.inventory
+            binding.tvProductName.text = raw.productName
+            binding.tvProductDescription.text = raw.productDescription
+            binding.tvPrice.text = "AED %.2f".format(raw.retailPrice)
+            binding.tvStock.text = "In Stock: ${formatQty(raw.quantityInStock)}"
+            
+            val selectedQty = item.selectedQuantity
+            binding.tvSelectedQuantity.text = formatQty(selectedQty)
+            binding.layoutQuantity.alpha = if (selectedQty > 0) 1.0f else 0.5f
 
-            if (item.imagePath != null) {
-                val file = File(item.imagePath)
+            if (raw.imagePath != null) {
+                val file = File(raw.imagePath)
                 if (file.exists()) {
                     Glide.with(binding.root.context)
                         .load(file)
@@ -35,6 +49,9 @@ class GalleryAdapter : ListAdapter<InventoryRaw, GalleryAdapter.ViewHolder>(DIFF
                 binding.ivProduct.setImageResource(R.drawable.ic_products)
                 binding.ivProduct.alpha = 0.3f
             }
+
+            binding.btnPlus.setOnClickListener { onPlusClick(raw) }
+            binding.btnMinus.setOnClickListener { onMinusClick(raw) }
         }
 
         private fun formatQty(qty: Double) = if (qty % 1.0 == 0.0) qty.toInt().toString() else qty.toString()
@@ -46,9 +63,9 @@ class GalleryAdapter : ListAdapter<InventoryRaw, GalleryAdapter.ViewHolder>(DIFF
     override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(getItem(position))
 
     companion object {
-        val DIFF = object : DiffUtil.ItemCallback<InventoryRaw>() {
-            override fun areItemsTheSame(a: InventoryRaw, b: InventoryRaw) = a.id == b.id
-            override fun areContentsTheSame(a: InventoryRaw, b: InventoryRaw) = a == b
+        val DIFF = object : DiffUtil.ItemCallback<GalleryItem>() {
+            override fun areItemsTheSame(a: GalleryItem, b: GalleryItem) = a.inventory.id == b.inventory.id
+            override fun areContentsTheSame(a: GalleryItem, b: GalleryItem) = a == b
         }
     }
 }

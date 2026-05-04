@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -118,7 +118,7 @@ class BillsFragment : Fragment() {
     }
 
     private fun confirmDelete(file: File) {
-        AlertDialog.Builder(requireContext())
+        MaterialAlertDialogBuilder(requireContext())
             .setTitle("Delete Bill")
             .setMessage("Are you sure you want to delete ${file.name}?")
             .setPositiveButton("Delete") { _, _ ->

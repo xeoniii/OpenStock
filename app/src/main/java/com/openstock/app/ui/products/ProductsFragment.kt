@@ -3,7 +3,7 @@ package com.openstock.app.ui.products
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -106,7 +106,7 @@ class ProductsFragment : Fragment() {
     }
 
     private fun confirmDelete(product: Product) {
-        AlertDialog.Builder(requireContext())
+        MaterialAlertDialogBuilder(requireContext())
             .setTitle("Delete Product")
             .setMessage("Are you sure you want to delete \"${product.name}\"?")
             .setPositiveButton("Delete") { _, _ -> viewModel.deleteProduct(product) }

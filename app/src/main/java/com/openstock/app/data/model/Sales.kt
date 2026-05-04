@@ -5,7 +5,14 @@ import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "sale_groups")
+@Entity(
+    tableName = "sale_groups",
+    indices = [
+        Index("isCompleted"),
+        Index("isVerified"),
+        Index("createdAt")
+    ]
+)
 data class SaleGroup(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,

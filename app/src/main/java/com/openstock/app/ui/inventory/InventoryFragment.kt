@@ -3,7 +3,7 @@ package com.openstock.app.ui.inventory
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -89,7 +89,16 @@ class InventoryFragment : Fragment() {
             if (product != null) {
                 val existing = viewModel.getInventoryByProductId(product.id)
                 val inventoryRaw = if (existing != null) {
-                    InventoryRaw(existing.id, existing.productId, existing.quantityInStock, existing.lastUpdated, product.name, product.retailPrice)
+                    InventoryRaw(
+                        existing.id,
+                        existing.productId,
+                        existing.quantityInStock,
+                        existing.lastUpdated,
+                        product.name,
+                        product.description,
+                        product.retailPrice,
+                        product.imagePath
+                    )
                 } else null
                 
                 showAddEditDialog(inventoryRaw, product.id)
@@ -103,7 +112,7 @@ class InventoryFragment : Fragment() {
         lifecycleScope.launch {
             val products = viewModel.getAllProductsSync()
             if (products.isEmpty()) {
-                AlertDialog.Builder(requireContext())
+                MaterialAlertDialogBuilder(requireContext())
                     .setTitle("No Products")
                     .setMessage("Please add products first before managing inventory.")
                     .setPositiveButton("OK", null)
@@ -120,7 +129,7 @@ class InventoryFragment : Fragment() {
     }
 
     private fun confirmDelete(item: InventoryRaw) {
-        AlertDialog.Builder(requireContext())
+        MaterialAlertDialogBuilder(requireContext())
             .setTitle("Remove from Inventory")
             .setMessage("Remove \"${item.productName}\" from inventory?")
             .setPositiveButton("Remove") { _, _ ->

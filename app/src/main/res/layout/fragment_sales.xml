@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/background_dark">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,14 +18,15 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             app:cardCornerRadius="16dp"
-            app:cardElevation="4dp"
-            app:cardBackgroundColor="#1B2631">
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="@android:color/transparent">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:padding="16dp"
+                android:background="@drawable/bg_glass_card">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -52,7 +54,7 @@
                             android:layout_height="wrap_content"
                             android:text="COST"
                             android:textSize="10sp"
-                            android:textColor="#E67E22" />
+                            android:textColor="@color/glass_text_secondary" />
                         <TextView
                             android:id="@+id/tvTotalWholesale"
                             android:layout_width="wrap_content"
@@ -60,11 +62,13 @@
                             android:text="AED 0.00"
                             android:textSize="18sp"
                             android:textStyle="bold"
-                            android:textColor="#E67E22" />
+                            android:textColor="@color/glass_text" />
                     </LinearLayout>
 
-                    <View android:id="@+id/divider1" android:layout_width="1dp" android:layout_height="40dp"
-                        android:background="#444" />
+                    <View android:id="@+id/divider1"
+                        android:layout_width="1dp"
+                        android:layout_height="40dp"
+                        android:background="@color/glass_stroke" />
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -78,7 +82,7 @@
                             android:layout_height="wrap_content"
                             android:text="PRICE"
                             android:textSize="10sp"
-                            android:textColor="#27AE60" />
+                            android:textColor="@color/mint_primary" />
                         <TextView
                             android:id="@+id/tvTotalRetail"
                             android:layout_width="wrap_content"
@@ -86,11 +90,13 @@
                             android:text="AED 0.00"
                             android:textSize="18sp"
                             android:textStyle="bold"
-                            android:textColor="#27AE60" />
+                            android:textColor="@color/mint_primary" />
                     </LinearLayout>
 
-                    <View android:id="@+id/divider2" android:layout_width="1dp" android:layout_height="40dp"
-                        android:background="#444" />
+                    <View android:id="@+id/divider2"
+                        android:layout_width="1dp"
+                        android:layout_height="40dp"
+                        android:background="@color/glass_stroke" />
 
                     <LinearLayout
                         android:id="@+id/layoutProfit"
@@ -104,7 +110,7 @@
                             android:layout_height="wrap_content"
                             android:text="PROFIT"
                             android:textSize="10sp"
-                            android:textColor="#3498DB" />
+                            android:textColor="@color/mint_primary" />
                         <TextView
                             android:id="@+id/tvTotalProfit"
                             android:layout_width="wrap_content"
@@ -112,7 +118,7 @@
                             android:text="AED 0.00"
                             android:textSize="18sp"
                             android:textStyle="bold"
-                            android:textColor="#3498DB" />
+                            android:textColor="@color/mint_primary" />
                     </LinearLayout>
 
                 </LinearLayout>

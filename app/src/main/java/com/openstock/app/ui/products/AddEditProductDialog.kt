@@ -19,6 +19,7 @@ import java.io.FileOutputStream
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.FileProvider
 import android.net.Uri
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.InputStream
@@ -72,6 +73,11 @@ class AddEditProductDialog : DialogFragment() {
         }
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setStyle(STYLE_NORMAL, R.style.Theme_OpenStock_Dialog)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = DialogAddEditProductBinding.inflate(inflater, container, false)
         return binding.root
@@ -118,7 +124,7 @@ class AddEditProductDialog : DialogFragment() {
 
     private fun showPhotoSourceDialog() {
         val options = arrayOf("Select File", "Take from Camera", "Download from Web")
-        AlertDialog.Builder(requireContext())
+        MaterialAlertDialogBuilder(requireContext())
             .setTitle("Add Product Photo")
             .setItems(options) { _, which ->
                 when (which) {
@@ -141,16 +147,17 @@ class AddEditProductDialog : DialogFragment() {
     }
 
     private fun showWebDownloadDialog() {
-        val input = android.widget.EditText(requireContext()).apply {
-            hint = "https://example.com/image.jpg"
-            inputType = android.text.InputType.TYPE_TEXT_VARIATION_URI
-        }
-        AlertDialog.Builder(requireContext())
+        val binding2 = layoutInflater.inflate(R.layout.dialog_input_name, null)
+        val etUrl = binding2.findViewById<android.widget.EditText>(R.id.etName)
+        etUrl.hint = "https://example.com/image.jpg"
+        etUrl.inputType = android.text.InputType.TYPE_TEXT_VARIATION_URI
+
+        MaterialAlertDialogBuilder(requireContext())
             .setTitle("Download from Web")
             .setMessage("Enter the URL of the product image:")
-            .setView(input)
+            .setView(binding2)
             .setPositiveButton("Download") { _, _ ->
-                val url = input.text.toString().trim()
+                val url = etUrl.text.toString().trim()
                 if (url.isNotEmpty()) {
                     downloadImageFromWeb(url)
                 }
@@ -161,7 +168,7 @@ class AddEditProductDialog : DialogFragment() {
 
     private fun downloadImageFromWeb(url: String) {
         lifecycleScope.launch {
-            val progressDialog = AlertDialog.Builder(requireContext())
+            val progressDialog = MaterialAlertDialogBuilder(requireContext())
                 .setMessage("Downloading image...")
                 .setCancelable(false)
                 .show()

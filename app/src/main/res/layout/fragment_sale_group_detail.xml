@@ -55,7 +55,9 @@
                             android:textColor="#E67E22" />
                     </LinearLayout>
 
-                    <View android:id="@+id/divider1" android:layout_width="1dp" android:layout_height="36dp"
+                    <View android:id="@+id/divider1"
+                        android:layout_width="1dp"
+                        android:layout_height="36dp"
                         android:background="#444" />
 
                     <LinearLayout
@@ -81,7 +83,9 @@
                             android:textColor="#27AE60" />
                     </LinearLayout>
 
-                    <View android:id="@+id/divider2" android:layout_width="1dp" android:layout_height="36dp"
+                    <View android:id="@+id/divider2"
+                        android:layout_width="1dp"
+                        android:layout_height="36dp"
                         android:background="#444" />
 
                     <LinearLayout

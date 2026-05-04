@@ -35,8 +35,7 @@ class InventoryAdapter(
                 binding.tvQuantity.textSize = 22f
                 binding.tvPrice.text = "AED %.2f".format(item.retailPrice)
                 binding.tvLastUpdated.visibility = View.VISIBLE
-                val sdf = SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.getDefault())
-                binding.tvLastUpdated.text = "Updated: ${sdf.format(Date(item.lastUpdated))}"
+                binding.tvLastUpdated.text = "Updated: ${dateFormatter.format(Date(item.lastUpdated))}"
             }
 
             if (item.imagePath != null) {
@@ -85,6 +84,8 @@ class InventoryAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(getItem(position))
 
     companion object {
+        private val dateFormatter = SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.getDefault())
+
         val DIFF = object : DiffUtil.ItemCallback<InventoryRaw>() {
             override fun areItemsTheSame(a: InventoryRaw, b: InventoryRaw) = a.id == b.id
             override fun areContentsTheSame(a: InventoryRaw, b: InventoryRaw) = a == b

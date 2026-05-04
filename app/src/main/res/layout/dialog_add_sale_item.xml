@@ -2,7 +2,8 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_dialog_custom">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -36,7 +37,6 @@
             android:padding="8dp" />
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="14dp">
@@ -60,8 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:hint="Cost (AED)"
-                android:layout_marginEnd="8dp"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                android:layout_marginEnd="8dp">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etWholesaleOverride"
                     android:layout_width="match_parent"
@@ -81,8 +80,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:hint="Price (AED)"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                    android:hint="Price (AED)">
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etRetailOverride"
                         android:layout_width="match_parent"

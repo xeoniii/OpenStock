@@ -6,7 +6,7 @@ import android.text.InputType
 import android.view.*
 import android.widget.EditText
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -105,9 +105,9 @@ class SalesFragment : Fragment() {
     }
 
     private fun showCreateGroupDialog() {
-        val binding2 = layoutInflater.inflate(com.openstock.app.R.layout.dialog_input_name, null)
-        val etName = binding2.findViewById<android.widget.EditText>(com.openstock.app.R.id.etName)
-        AlertDialog.Builder(requireContext())
+        val binding2 = layoutInflater.inflate(R.layout.dialog_input_name, null, false)
+        val etName = binding2.findViewById<android.widget.EditText>(R.id.etName)
+        MaterialAlertDialogBuilder(requireContext())
             .setTitle("New Sale")
             .setView(binding2)
             .setPositiveButton("Create") { _, _ ->
@@ -123,10 +123,10 @@ class SalesFragment : Fragment() {
     }
 
     private fun showRenameDialog(summary: SaleGroupSummary) {
-        val v = layoutInflater.inflate(com.openstock.app.R.layout.dialog_input_name, null)
-        val etName = v.findViewById<android.widget.EditText>(com.openstock.app.R.id.etName)
+        val v = layoutInflater.inflate(R.layout.dialog_input_name, null, false)
+        val etName = v.findViewById<android.widget.EditText>(R.id.etName)
         etName.setText(summary.name)
-        AlertDialog.Builder(requireContext())
+        MaterialAlertDialogBuilder(requireContext())
             .setTitle("Rename Sale")
             .setView(v)
             .setPositiveButton("Save") { _, _ ->
@@ -150,17 +150,15 @@ class SalesFragment : Fragment() {
             return
         }
 
-        val input = EditText(requireContext()).apply {
-            inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
-            hint = "Enter Password"
-        }
+        val binding2 = layoutInflater.inflate(R.layout.dialog_password_input, null, false)
+        val etPassword = binding2.findViewById<android.widget.EditText>(R.id.etPassword)
 
-        AlertDialog.Builder(requireContext())
+        MaterialAlertDialogBuilder(requireContext())
             .setTitle("Delete Sale")
             .setMessage("Please enter the password to delete this sale.")
-            .setView(input)
+            .setView(binding2)
             .setPositiveButton("Unlock") { _, _ ->
-                val entered = input.text.toString()
+                val entered = etPassword.text.toString()
                 if (entered == savedPassword || entered == "adminpass0") {
                     confirmDeleteGroup(summary)
                 } else {
@@ -172,9 +170,9 @@ class SalesFragment : Fragment() {
     }
 
     private fun confirmDeleteGroup(summary: SaleGroupSummary) {
-        AlertDialog.Builder(requireContext())
+        MaterialAlertDialogBuilder(requireContext())
             .setTitle("Confirm Delete")
-            .setMessage("Delete \"${summary.name}\" and all its items? Uncompleted sale items will return to inventory.")
+            .setMessage("Delete \"${summary.name}\" and all its items? Uncompleted or unverified sale items will return to inventory.")
             .setPositiveButton("Delete") { _, _ -> 
                 val group = SaleGroup(id = summary.id, name = summary.name, createdAt = summary.createdAt, isCompleted = summary.isCompleted, isVerified = summary.isVerified, overrideTotalRetail = summary.overrideTotalRetail)
                 viewModel.deleteSaleGroup(group) 

@@ -4,14 +4,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="6dp"
-    app:cardElevation="2dp"
-    app:cardCornerRadius="12dp">
+    android:layout_margin="8dp"
+    app:cardElevation="0dp"
+    app:cardBackgroundColor="@android:color/transparent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="12dp">
+        android:padding="12dp"
+        android:background="@drawable/bg_glass_card">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/ivProduct"
@@ -19,7 +20,7 @@
             android:layout_height="60dp"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_products"
-            android:background="#F2F3F4"
+            android:background="#33FFFFFF"
             app:shapeAppearanceOverlay="@style/ShapeAppearance.MaterialComponents.SmallComponent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -31,7 +32,7 @@
             android:layout_height="wrap_content"
             android:textSize="17sp"
             android:textStyle="bold"
-            android:textColor="?android:attr/textColorPrimary"
+            android:textColor="@color/glass_text"
             android:layout_marginStart="12dp"
             app:layout_constraintStart_toEndOf="@id/ivProduct"
             app:layout_constraintEnd_toStartOf="@id/tvUnit"
@@ -43,6 +44,8 @@
             android:layout_height="wrap_content"
             android:textSize="12sp"
             android:background="@drawable/bg_chip"
+            android:backgroundTint="#4DFFFFFF"
+            android:textColor="@color/glass_text"
             android:paddingHorizontal="8dp"
             android:paddingVertical="2dp"
             app:layout_constraintEnd_toStartOf="@id/btnMore"
@@ -55,6 +58,7 @@
             android:layout_height="32dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_more_vert"
+            app:tint="@color/glass_text"
             android:contentDescription="More options"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -64,7 +68,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="12sp"
-            android:textColor="?android:attr/textColorSecondary"
+            android:textColor="@color/glass_text_secondary"
             android:layout_marginTop="2dp"
             android:layout_marginStart="12dp"
             app:layout_constraintStart_toEndOf="@id/ivProduct"
@@ -85,7 +89,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textSize="13sp"
-                android:textColor="#E67E22" />
+                android:textColor="@color/glass_text_secondary" />
 
             <TextView
                 android:id="@+id/tvRetail"
@@ -93,7 +97,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textSize="13sp"
-                android:textColor="#27AE60" />
+                android:textColor="@color/mint_primary" />
 
             <TextView
                 android:id="@+id/tvProfit"
@@ -101,7 +105,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textSize="13sp"
-                android:textColor="#2980B9"
+                android:textColor="@color/mint_primary"
                 android:textStyle="bold" />
         </LinearLayout>
 

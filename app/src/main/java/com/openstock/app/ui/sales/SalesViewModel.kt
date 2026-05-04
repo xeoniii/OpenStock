@@ -12,12 +12,10 @@ class SalesViewModel(private val repository: AppRepository) : ViewModel() {
     
     private val _inventorySearchQuery = MutableLiveData("")
     val filteredInventory: LiveData<List<InventoryRaw>> = _inventorySearchQuery.switchMap { query ->
-        repository.allInventory.map { items ->
-            if (query.isNullOrBlank()) {
-                items
-            } else {
-                items.filter { it.productName.contains(query, ignoreCase = true) }
-            }
+        if (query.isNullOrBlank()) {
+            repository.allInventory
+        } else {
+            repository.searchInventory(query)
         }
     }
 

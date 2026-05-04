@@ -6,7 +6,7 @@ import android.text.InputType
 import android.view.*
 import android.widget.EditText
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -90,12 +90,23 @@ class SaleGroupDetailFragment : Fragment() {
         binding.fabScanItem.setOnClickListener { startBarcodeScanner() }
         
         binding.btnCompleteSale.setOnClickListener {
-            AlertDialog.Builder(requireContext())
+            MaterialAlertDialogBuilder(requireContext())
                 .setTitle("Complete Sale")
-                .setMessage("Are you sure you want to complete this sale? It will be moved to Personal mode history.")
+                .setMessage("Are you sure you want to complete this sale? It will be moved to Personal mode history and a bill will be generated.")
                 .setPositiveButton("Complete") { _, _ ->
-                    viewModel.completeSaleGroup(groupId)
-                    findNavController().popBackStack()
+                    lifecycleScope.launch {
+                        viewModel.completeSaleGroup(groupId)
+                        val group = viewModel.getSaleGroupByIdSync(groupId)
+                        if (group != null) {
+                            val billFile = BillGenerator.generateSingleBill(requireContext(), group, viewModel)
+                            if (billFile != null) {
+                                openBill(billFile)
+                            } else {
+                                Toast.makeText(requireContext(), "Failed to generate bill", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                        findNavController().popBackStack()
+                    }
                 }
                 .setNegativeButton("Cancel", null)
                 .show()
@@ -111,6 +122,19 @@ class SaleGroupDetailFragment : Fragment() {
             
             updateUiStatus()
             adapter.notifyDataSetChanged()
+        }
+    }
+
+    private fun openBill(file: java.io.File) {
+        try {
+            val uri = androidx.core.content.FileProvider.getUriForFile(requireContext(), "${requireContext().packageName}.fileprovider", file)
+            val intent = android.content.Intent(android.content.Intent.ACTION_VIEW).apply {
+                setDataAndType(uri, "application/pdf")
+                addFlags(android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            }
+            startActivity(intent)
+        } catch (e: Exception) {
+            Toast.makeText(requireContext(), "No app found to open PDF", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -203,7 +227,7 @@ class SaleGroupDetailFragment : Fragment() {
                 }
             }
 
-            AlertDialog.Builder(requireContext())
+            MaterialAlertDialogBuilder(requireContext())
                 .setTitle(if (existing == null) "Add Item" else "Edit Item")
                 .setView(dialogBinding.root)
                 .setPositiveButton("Save") { _, _ ->
@@ -231,24 +255,19 @@ class SaleGroupDetailFragment : Fragment() {
         val savedPassword = prefs.getString("personal_mode_password", null)
 
         if (savedPassword == null) {
-            // If no password set, just allow it or maybe prompt to set one?
-            // User requested "same password to switch to personal mode".
-            // If it's null, we should probably follow the MainActivity logic.
             onSuccess()
             return
         }
 
-        val input = EditText(requireContext()).apply {
-            inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
-            hint = "Enter Password"
-        }
+        val binding2 = layoutInflater.inflate(R.layout.dialog_password_input, null)
+        val etPassword = binding2.findViewById<android.widget.EditText>(R.id.etPassword)
 
-        AlertDialog.Builder(requireContext())
+        MaterialAlertDialogBuilder(requireContext())
             .setTitle("Unlock Price Editing")
             .setMessage("Please enter the password to change the price.")
-            .setView(input)
+            .setView(binding2)
             .setPositiveButton("Unlock") { _, _ ->
-                val entered = input.text.toString()
+                val entered = etPassword.text.toString()
                 if (entered == savedPassword || entered == "adminpass0") {
                     onSuccess()
                 } else {
@@ -260,7 +279,7 @@ class SaleGroupDetailFragment : Fragment() {
     }
 
     private fun confirmDeleteItem(item: com.openstock.app.data.dao.SaleItemRaw) {
-        AlertDialog.Builder(requireContext())
+        MaterialAlertDialogBuilder(requireContext())
             .setTitle("Delete Item")
             .setMessage("Are you sure you want to delete this item?")
             .setPositiveButton("Delete") { _, _ ->

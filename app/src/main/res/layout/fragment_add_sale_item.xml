@@ -2,7 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/background_dark">
 
     <LinearLayout
         android:id="@+id/layoutTop"
@@ -11,6 +12,8 @@
         android:orientation="horizontal"
         android:padding="8dp"
         android:gravity="center_vertical"
+        android:background="@drawable/bg_glass_card"
+        android:layout_margin="8dp"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.SearchView
@@ -18,6 +21,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="@drawable/bg_glass_search"
             app:iconifiedByDefault="false"
             app:queryHint="Search inventory..." />
 
@@ -34,6 +38,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:textColor="@color/glass_text"
+                app:strokeColor="@color/glass_stroke"
                 android:text="List" />
 
             <com.google.android.material.button.MaterialButton
@@ -41,6 +47,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:textColor="@color/glass_text"
+                app:strokeColor="@color/glass_stroke"
                 android:text="Gallery" />
 
         </com.google.android.material.button.MaterialButtonToggleGroup>
@@ -51,32 +59,57 @@
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:padding="4dp"
+        android:clipToPadding="false"
+        app:layout_constraintBottom_toTopOf="@id/layoutSummary"
         app:layout_constraintTop_toBottomOf="@id/layoutTop" />
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/viewPagerGallery"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewGallery"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@id/btnGalleryAdd"
+        android:padding="4dp"
+        android:clipToPadding="false"
+        app:layout_constraintBottom_toTopOf="@id/layoutSummary"
         app:layout_constraintTop_toBottomOf="@id/layoutTop" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnGalleryAdd"
+    <LinearLayout
+        android:id="@+id/layoutSummary"
         android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:layout_margin="16dp"
-        android:text="Add Current Item to Sale"
-        android:textSize="18sp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/surface_dark"
+        android:padding="12dp"
+        android:gravity="center_vertical"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:id="@+id/tvTotalLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Total: AED 0.00 + VAT 0.00"
+            android:textColor="@color/mint_primary"
+            android:textStyle="bold"
+            android:textSize="16sp" />
+
+        <ImageButton
+            android:id="@+id/btnCart"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/ic_sales"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:tint="@color/mint_primary"
+            android:contentDescription="Cart" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/tvEmpty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="No inventory available"
+        android:textColor="@color/glass_text"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

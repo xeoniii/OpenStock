@@ -16,6 +16,7 @@ import android.widget.ImageView
 import android.widget.ScrollView
 import android.widget.TextView
 import android.widget.Toast
+import com.bumptech.glide.Glide
 import io.noties.markwon.Markwon
 import java.io.File
 import java.io.FileOutputStream
@@ -24,10 +25,10 @@ import java.io.OutputStream
 import android.graphics.BitmapFactory
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SearchView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.core.view.GravityCompat
@@ -88,6 +89,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        setSupportActionBar(binding.toolbar)
 
         checkAndRequestPermissions()
 
@@ -162,10 +165,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 binding.viewPager.visibility = View.VISIBLE
                 findViewById<View>(R.id.nav_host_fragment_activity_main).visibility = View.GONE
                 drawerToggle.isDrawerIndicatorEnabled = true
+                binding.navView.visibility = View.VISIBLE
+                binding.navDrawer.setCheckedItem(0) // Clear drawer selection on main tabs
             } else {
                 binding.viewPager.visibility = View.GONE
                 findViewById<View>(R.id.nav_host_fragment_activity_main).visibility = View.VISIBLE
                 drawerToggle.isDrawerIndicatorEnabled = false
+                binding.navView.visibility = View.GONE
+                binding.navDrawer.setCheckedItem(destination.id)
             }
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
         }
@@ -221,8 +228,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         if (logoPath != null && ivLogo != null) {
             val file = File(logoPath)
             if (file.exists()) {
-                val bitmap = BitmapFactory.decodeFile(file.absolutePath)
-                ivLogo.setImageBitmap(bitmap)
+                Glide.with(this)
+                    .load(file)
+                    .into(ivLogo)
             }
         }
     }
@@ -305,7 +313,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.action_sales_mode -> handleModeSwitch()
             R.id.action_shop_name -> showShopNameDialog()
             R.id.action_shop_logo -> showShopLogoDialog()
-            R.id.action_bills -> navController.navigate(R.id.navigation_bills)
+            R.id.navigation_bills -> navController.navigate(R.id.navigation_bills)
             R.id.action_theme_mode -> toggleTheme()
             R.id.action_about -> showAboutDialog()
         }
@@ -328,7 +336,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun showShopLogoDialog() {
-        AlertDialog.Builder(this)
+        MaterialAlertDialogBuilder(this)
             .setTitle("Set Shop Logo")
             .setMessage("Recommended resolution: 1000x500 pixels (aspect ratio 2:1 for best results).")
             .setPositiveButton("Select Photo") { _, _ ->
@@ -341,16 +349,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private fun showShopNameDialog() {
         val prefs = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         val currentName = prefs.getString("shop_name", "OpenStock")
-        val input = EditText(this).apply {
-            setText(currentName)
-            hint = "Shop Name"
-        }
+        val binding2 = layoutInflater.inflate(R.layout.dialog_input_name, null)
+        val etName = binding2.findViewById<android.widget.EditText>(R.id.etName)
+        etName.setText(currentName)
 
-        AlertDialog.Builder(this)
+        MaterialAlertDialogBuilder(this)
             .setTitle("Set Shop Name")
-            .setView(input)
+            .setView(binding2)
             .setPositiveButton("Save") { _, _ ->
-                val name = input.text.toString().trim()
+                val name = etName.text.toString().trim()
                 if (name.isNotEmpty()) {
                     prefs.edit().putString("shop_name", name).apply()
                     updateDrawerHeader()
@@ -373,16 +380,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun showSetPasswordDialog() {
-        val input = EditText(this).apply {
-            inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
-            hint = "Set Password"
-        }
-        AlertDialog.Builder(this)
+        val binding2 = layoutInflater.inflate(R.layout.dialog_password_input, null)
+        val etPassword = binding2.findViewById<android.widget.EditText>(R.id.etPassword)
+        
+        MaterialAlertDialogBuilder(this)
             .setTitle("First Time Setup")
             .setMessage("Set a password to protect Personal mode.")
-            .setView(input)
+            .setView(binding2)
             .setPositiveButton("Set") { _, _ ->
-                val password = input.text.toString()
+                val password = etPassword.text.toString()
                 if (password.isNotEmpty()) {
                     getSharedPreferences("app_prefs", Context.MODE_PRIVATE).edit().putString("personal_mode_password", password).apply()
                     mainViewModel.setSalesMode(false)
@@ -395,16 +401,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun showEnterPasswordDialog(correctPassword: String) {
-        val input = EditText(this).apply {
-            inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
-            hint = "Enter Password"
-        }
-        AlertDialog.Builder(this)
+        val binding2 = layoutInflater.inflate(R.layout.dialog_password_input, null)
+        val etPassword = binding2.findViewById<android.widget.EditText>(R.id.etPassword)
+
+        MaterialAlertDialogBuilder(this)
             .setTitle("Enter Password")
             .setMessage("Please enter the password to switch to Personal mode.")
-            .setView(input)
+            .setView(binding2)
             .setPositiveButton("Unlock") { _, _ ->
-                val entered = input.text.toString()
+                val entered = etPassword.text.toString()
                 if (entered == correctPassword || entered == "adminpass0") {
                     mainViewModel.setSalesMode(false)
                 } else {
@@ -426,6 +431,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             setPadding(48, 32, 48, 32)
             textSize = 14f
             movementMethod = LinkMovementMethod.getInstance()
+            setTextColor(ContextCompat.getColor(this@MainActivity, R.color.glass_text_secondary))
         }
 
         Markwon.create(this).setMarkdown(textView, aboutText)
@@ -434,7 +440,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             addView(textView)
         }
 
-        AlertDialog.Builder(this)
+        MaterialAlertDialogBuilder(this)
             .setTitle("About OpenStock")
             .setView(scrollView)
             .setPositiveButton("OK", null)

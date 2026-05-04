@@ -1,0 +1,20 @@
+{
+  "version": 3,
+  "artifactType": {
+    "type": "APK",
+    "kind": "Directory"
+  },
+  "applicationId": "com.openstock.app",
+  "variantName": "release",
+  "elements": [
+    {
+      "type": "SINGLE",
+      "filters": [],
+      "attributes": [],
+      "versionCode": 1312,
+      "versionName": "1.31.2",
+      "outputFile": "OpenStock-release-1.31.2.apk"
+    }
+  ],
+  "elementType": "File"
+}

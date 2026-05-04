@@ -5,6 +5,7 @@ import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.DialogFragment
+import com.openstock.app.R
 import com.openstock.app.data.dao.InventoryRaw
 import com.openstock.app.data.model.Product
 import com.openstock.app.databinding.DialogAddEditInventoryBinding
@@ -29,6 +30,11 @@ class AddEditInventoryDialog : DialogFragment() {
             dialog.allInventory = allInventory
             return dialog
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setStyle(STYLE_NORMAL, R.style.Theme_OpenStock_Dialog)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {

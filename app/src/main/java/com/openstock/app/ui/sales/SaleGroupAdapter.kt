@@ -12,6 +12,8 @@ import com.openstock.app.databinding.ItemSaleGroupHeaderBinding
 import java.text.SimpleDateFormat
 import java.util.*
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+
 class SaleGroupAdapter(
     private val onView: (SaleGroupSummary) -> Unit,
     private val onEdit: (SaleGroupSummary) -> Unit,
@@ -44,8 +46,7 @@ class SaleGroupAdapter(
         fun bind(summary: SaleGroupSummary) {
             val isSalesMode = isSalesModeProvider()
             binding.tvGroupName.text = if (summary.isVerified) "${summary.name} (Verified)" else summary.name
-            val sdf = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
-            binding.tvDate.text = sdf.format(Date(summary.createdAt))
+            binding.tvDate.text = dateFormatter.format(Date(summary.createdAt))
 
             val totalWholesale = summary.totalWholesale
             val totalRetail = summary.finalTotalRetail
@@ -103,16 +104,20 @@ class SaleGroupAdapter(
     }
 
     private fun showUpdateTotalDialog(context: android.content.Context, summary: SaleGroupSummary) {
-        val input = android.widget.EditText(context).apply {
+        val inflater = LayoutInflater.from(context)
+        val binding = com.openstock.app.databinding.DialogInputNameBinding.inflate(inflater)
+        binding.etName.apply {
             inputType = android.text.InputType.TYPE_CLASS_NUMBER or android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL
             setText("%.2f".format(summary.finalTotalRetail))
         }
-        androidx.appcompat.app.AlertDialog.Builder(context)
+        binding.tilName.hint = "Total Price (AED)"
+
+        MaterialAlertDialogBuilder(context)
             .setTitle("Change Total Price")
             .setMessage("Override the calculated total revenue for this sale.")
-            .setView(input)
+            .setView(binding.root)
             .setPositiveButton("Update") { _, _ ->
-                val newVal = input.text.toString().toDoubleOrNull()
+                val newVal = binding.etName.text.toString().toDoubleOrNull()
                 if (newVal != null) onUpdateTotal(summary, newVal)
             }
             .setNegativeButton("Cancel", null)
@@ -144,6 +149,7 @@ class SaleGroupAdapter(
     companion object {
         private const val TYPE_HEADER = 0
         private const val TYPE_ITEM = 1
+        private val dateFormatter = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
 
         val DIFF = object : DiffUtil.ItemCallback<SaleGroupItem>() {
             override fun areItemsTheSame(a: SaleGroupItem, b: SaleGroupItem): Boolean {

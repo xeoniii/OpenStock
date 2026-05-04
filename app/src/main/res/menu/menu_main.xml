@@ -1,28 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item
-        android:id="@+id/action_sales_mode"
-        android:title="Switch to Sales mode"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/action_shop_name"
-        android:title="Shop Name"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/action_shop_logo"
-        android:title="Shop Logo"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/action_bills"
-        android:title="Bills"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/action_theme_mode"
-        android:title="Dark Mode"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/action_about"
-        android:title="About"
-        app:showAsAction="never" />
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:id="@+id/group_main" android:checkableBehavior="single">
+        <item
+            android:id="@+id/action_sales_mode"
+            android:icon="@drawable/ic_sales"
+            android:title="Switch to Sales mode" />
+        <item
+            android:id="@+id/navigation_bills"
+            android:icon="@android:drawable/ic_menu_recent_history"
+            android:title="Bills" />
+    </group>
+
+    <item android:title="PREFERENCES">
+        <menu>
+            <item
+                android:id="@+id/action_shop_name"
+                android:icon="@android:drawable/ic_menu_edit"
+                android:title="Shop Name" />
+            <item
+                android:id="@+id/action_shop_logo"
+                android:icon="@android:drawable/ic_menu_gallery"
+                android:title="Shop Logo" />
+            <item
+                android:id="@+id/action_theme_mode"
+                android:icon="@android:drawable/ic_menu_day"
+                android:title="Dark Mode" />
+        </menu>
+    </item>
+
+    <item android:title="INFO">
+        <menu>
+            <item
+                android:id="@+id/action_about"
+                android:icon="@android:drawable/ic_menu_info_details"
+                android:title="About" />
+        </menu>
+    </item>
 </menu>

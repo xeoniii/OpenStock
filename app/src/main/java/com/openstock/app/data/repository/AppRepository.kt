@@ -24,6 +24,7 @@ class AppRepository(
 
     // Inventory
     val allInventory: LiveData<List<InventoryRaw>> = inventoryDao.getAllInventoryRaw()
+    fun searchInventory(query: String) = inventoryDao.searchInventoryRaw(query)
     suspend fun getInventoryByProductId(productId: Long) = inventoryDao.getInventoryByProductId(productId)
     suspend fun insertInventory(item: InventoryItem) = inventoryDao.insertInventory(item)
     suspend fun updateInventory(item: InventoryItem) = inventoryDao.updateInventory(item)
@@ -53,8 +54,9 @@ class AppRepository(
     
     suspend fun deleteSaleGroup(group: SaleGroup) {
         database.withTransaction {
-            if (!group.isCompleted) {
-                // If the sale is not completed, return items to inventory
+            if (!group.isVerified) {
+                // If the sale is not verified, return items to inventory.
+                // This covers both active sales and completed sales that haven't been verified in history.
                 val items = saleItemDao.getSaleItemsByGroupSync(group.id)
                 for (item in items) {
                     adjustInventory(item.productId, item.quantity)

@@ -2,7 +2,8 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_dialog_custom">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_marginBottom="16dp"
-            android:background="#F2F3F4">
+            android:background="@color/surface_dark">
 
             <ImageView
                 android:id="@+id/ivProductPhoto"
@@ -41,15 +42,13 @@
                 android:layout_gravity="bottom|end"
                 android:layout_margin="8dp"
                 android:text="Change Photo"
-                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
                 app:icon="@drawable/ic_more_vert" />
         </FrameLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Product Name *"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            android:hint="Product Name *">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etName"
                 android:layout_width="match_parent"
@@ -68,8 +67,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:hint="Barcode"
-                android:layout_marginEnd="8dp"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                android:layout_marginEnd="8dp">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etBarcode"
                     android:layout_width="match_parent"
@@ -82,8 +80,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="Scan"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+                android:text="Scan" />
         </LinearLayout>
 
         <LinearLayout
@@ -97,8 +94,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:hint="Cost (AED) *"
-                android:layout_marginEnd="8dp"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                android:layout_marginEnd="8dp">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etWholesalePrice"
                     android:layout_width="match_parent"
@@ -110,8 +106,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="Price (AED) *"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                android:hint="Price (AED) *">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etRetailPrice"
                     android:layout_width="match_parent"
@@ -131,8 +126,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:hint="Unit (e.g. pcs, kg, box)"
-                android:layout_marginEnd="8dp"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                android:layout_marginEnd="8dp">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etUnit"
                     android:layout_width="match_parent"
@@ -144,8 +138,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="Description"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                android:hint="Description">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etDescription"
                     android:layout_width="match_parent"
@@ -166,8 +159,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Cancel"
-                android:layout_marginEnd="8dp"
-                style="@style/Widget.MaterialComponents.Button.TextButton" />
+                android:layout_marginEnd="8dp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnSave"
