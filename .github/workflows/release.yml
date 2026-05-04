@@ -35,7 +35,8 @@ jobs:
       - name: Decode Keystore
         run: |
           mkdir -p SigningKey
-          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > SigningKey/OpenStock-main.jks
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | tr -d '[:space:]' | base64 -d > SigningKey/OpenStock-main.jks
+
 
       - name: Create signing.properties
         run: |
